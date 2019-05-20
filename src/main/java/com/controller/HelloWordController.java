@@ -15,6 +15,6 @@ public class HelloWordController {
 
     @RequestMapping("/")
     public String helloWord(){
-        return helloWordService.message();
+        return helloWordService.message("DDLJ");
     }
 }
