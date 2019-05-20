@@ -37,8 +37,8 @@ public class GetMovieContractTest {
         dsl.date("releaseDate", "yyyy-MM-dd");
 
 
-        return builder.given("Test Get")
-                .uponReceiving("GET REQUEST")
+        return builder.given("getMovie")
+                .uponReceiving("GET Movie Details")
                 .path("/movies/DDLJ")
                 .method("GET")
                 .willRespondWith()
