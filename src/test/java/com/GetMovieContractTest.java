@@ -15,24 +15,25 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
-import static org.assertj.core.api.Assertions.*;
+
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class GetMovieContractTest {
 
     private HelloWordService helloWordService;
 
-    @Before
-    public void setup(){
-        helloWordService = new HelloWordService(new RestTemplate());
-    }
-
     @Rule
     public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("movie-service",
             "localhost", 8080,
             this);
 
+    @Before
+    public void setup() {
+        helloWordService = new HelloWordService(new RestTemplate());
+    }
 
     @Pact(consumer = "movie-consumer")
     public RequestResponsePact getMovie(PactDslWithProvider builder) {
@@ -43,8 +44,7 @@ public class GetMovieContractTest {
         dsl.integerType("length");
         dsl.date("releaseDate", "yyyy-MM-dd");
 
-
-         return builder.given("getMovie")
+        return builder.given("getMovie")
                 .uponReceiving("GET Movie Details")
                 .path("/movies/DDLJ")
                 .method(HttpMethod.GET.toString())
@@ -52,7 +52,7 @@ public class GetMovieContractTest {
                 .status(HttpStatus.SC_OK)
                 .headers(headers)
                 .body(dsl)
-                 .toPact();
+                .toPact();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class GetMovieContractTest {
     }
 
     @Pact(consumer = "movie-consumer")
-    public RequestResponsePact getMissingMovie(PactDslWithProvider builder){
+    public RequestResponsePact getMissingMovie(PactDslWithProvider builder) {
 
         Map<String, String> headers = ImmutableMap.of(HttpHeaders.CONTENT_TYPE, "application/json");
 
@@ -85,14 +85,10 @@ public class GetMovieContractTest {
     @Test
     @PactVerification(fragment = "getMissingMovie")
     public void verifyNotFound() {
-        try{
+        try {
             String name = helloWordService.message("DDLJ2");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             assertThat(true).isTrue();
         }
     }
-
-
-
 }
