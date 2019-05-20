@@ -1,8 +1,6 @@
 package com.service;
 
 import com.model.Movie;
-import org.apache.http.entity.ContentType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class HelloWordService {
 
+    private static final String MOVIE_SERVICE_URL = "http://localhost:8080/movies/DDLJ";
+
     private RestTemplate restTemplate;
 
     public HelloWordService(RestTemplate restTemplate) {
@@ -19,7 +19,7 @@ public class HelloWordService {
     }
 
     public String message(){
-        String url = "http://localhost:8080/movies/DDLJ";
+        String url = MOVIE_SERVICE_URL;
         ResponseEntity<Movie> response = restTemplate.exchange(url,
                 HttpMethod.GET,
                 null,
