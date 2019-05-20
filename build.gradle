@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'com.adarshr.test-logger' version '1.6.0'
+}
+
+group 'com.ranjit'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'au.com.dius', name: 'pact-jvm-consumer-junit_2.12', version: '3.6.7'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.5.RELEASE'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+    testRuntime("org.junit.vintage:junit-vintage-engine:5.2.0")
+
+
+
+}
+
+test {
+    systemProperties['pact.rootDir'] = "$rootDir/pacts/"
+    useJUnit()
+    useJUnitPlatform()
+}
